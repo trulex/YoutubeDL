@@ -1,7 +1,8 @@
 YoutubeDL
 =========
 
-YoutubeDL is a GUI written in Qt for youtube-dl
+YoutubeDL is a GUI written in Qt for <a href="https://rg3.github.io/youtube-dl/" target="_blank">youtube-dl</a>
+
 Copyright (C) 2014  Darko Jankovic
 
 This program is free software: you can redistribute it and/or modify
@@ -19,7 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Building
 -------
-You need Qt on your system to compile this application. Move to the project directory and execute commands:
+You need Qt installed on your system to compile this application. Move to the project directory and execute commands:
 
 	qmake
 	make
+
+Running
+-------
+If you compiled application from source, find the executable in the source directory. Otherwise download precompiled binary for your plaftorm.
+<h3>Windows</h3>
+Download YoutubeDL.for.Windows.zip, unzip it and run YoutubeDL.exe. youtube-dl and ffmpeg libraries are bundled.
+<h3>OS X</h3>
+Download YoutubeDL.for.OSX.dmg and run it, you will have to manually install youtube-dl and ffmpeg or avconv.
+<h3>GNU/Linux</h3>
+Download YoutubeDL.for.GNU.Linux and run it, you will have to manually install youtube-dl and ffmpeg or avconv.

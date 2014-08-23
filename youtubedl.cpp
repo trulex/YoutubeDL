@@ -66,6 +66,8 @@ void YoutubeDL::on_browseButton_clicked()
 void YoutubeDL::on_url_textChanged(const QString &arg1) {
     // Check if URL is correct and valid
     if (arg1.isEmpty() || !QUrl(arg1).isValid()) {
+        info->kill();
+        ui->pasteButton->setEnabled(true);
         ui->downloadButton->setDisabled(true);
         ui->cancelButton->setDisabled(true);
         ui->pauseButton->setDisabled(true);
@@ -95,8 +97,11 @@ void YoutubeDL::on_url_textChanged(const QString &arg1) {
 }
 
 void YoutubeDL::printError() {
-    ui->titleDescLabel->setText("Error occured. Please check the URL.");
-    ui->pasteButton->setEnabled(true);
+    QString errorInfo(info->readAllStandardError());
+    if (errorInfo.length() > 0) {
+        ui->titleDescLabel->setText("Error occured. Please check the URL.");
+        ui->pasteButton->setEnabled(true);
+    }
 }
 
 void YoutubeDL::getInfo()
@@ -274,8 +279,8 @@ void YoutubeDL::on_audioCheckBox_stateChanged(int arg1)
 
 void YoutubeDL::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, "About YouTubeDL",
-    "This is a GUI for the program youtube-dl.<br/><br/>Author: Darko Janković");
+    QMessageBox::about(this, tr("About YouTubeDL"),
+    tr("This is a GUI for the program youtube-dl.<br/><br/>Author: Darko Janković"));
 }
 
 void YoutubeDL::on_actionSupported_sites_triggered()
@@ -299,10 +304,5 @@ void YoutubeDL::getSites()
 void YoutubeDL::changeEvent(QEvent *event)
 {
     if (event->type() == QEvent::LanguageChange) {
-        ui->downloadButton->setText(tr("Prenos"));
-        /*
-        titleLabel->setText(tr("Document Title"));
-        ...
-        okPushButton->setText(tr("&OK"));*/
     }
 }

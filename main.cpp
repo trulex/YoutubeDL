@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
-
+qDebug() << "NAME" << QLocale::system().name();
     QTranslator youtubedlTranslator;
     youtubedlTranslator.load("youtubedl_" + QLocale::system().name());
     a.installTranslator(&youtubedlTranslator);

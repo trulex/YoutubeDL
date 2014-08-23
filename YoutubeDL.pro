@@ -42,4 +42,4 @@ ICON = YoutubeDL.icns
 RESOURCES += \
     YoutubeDL.qrc
 
-TRANSLATIONS = youtubedl_sl.ts
+TRANSLATIONS = youtubedl_sl_SI.ts

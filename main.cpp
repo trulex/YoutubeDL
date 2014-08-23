@@ -16,13 +16,24 @@
 */
 #include "youtubedl.h"
 #include <QApplication>
+#include <QLibraryInfo>
+#include <QTranslator>
 
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    YoutubeDL w;
     a.setWindowIcon(QIcon(":/YoutubeDL.png"));
+
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    a.installTranslator(&qtTranslator);
+
+    QTranslator youtubedlTranslator;
+    youtubedlTranslator.load("youtubedl_" + QLocale::system().name());
+    a.installTranslator(&youtubedlTranslator);
+
+    YoutubeDL w;
     w.show();
     
     return a.exec();

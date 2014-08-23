@@ -63,10 +63,9 @@ void YoutubeDL::on_browseButton_clicked()
     }
 }
 
-void YoutubeDL::on_url_textChanged(const QString &arg1)
-{
+void YoutubeDL::on_url_textChanged(const QString &arg1) {
     // Check if URL is correct and valid
-    if (arg1.isEmpty()) {
+    if (arg1.isEmpty() || !QUrl(arg1).isValid()) {
         ui->downloadButton->setDisabled(true);
         ui->cancelButton->setDisabled(true);
         ui->pauseButton->setDisabled(true);
@@ -103,29 +102,31 @@ void YoutubeDL::printError() {
 void YoutubeDL::getInfo()
 {
     QString videoInfo(info->readAllStandardOutput());
-    //QStringList split = videoInfo.split("\n");
-    QStringList split = videoInfo.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-    QString title = split.at(0);
-    QString thumbnail = split.at(1);
-    if (thumbnail.contains("https",Qt::CaseInsensitive))
-        thumbnail.remove(4,1);
-    split.removeAt(0);
-    split.removeAt(0);
-    QString description;
-    foreach(QString item, split) {
-        description.append(item);
-        description.append("<br>");
+    if (videoInfo.length() > 0 && NULL != videoInfo) {
+        //QStringList split = videoInfo.split("\n");
+        QStringList split = videoInfo.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+        QString title = split.at(0);
+        QString thumbnail = split.at(1);
+        if (thumbnail.contains("https",Qt::CaseInsensitive))
+            thumbnail.remove(4,1);
+        split.removeAt(0);
+        split.removeAt(0);
+        QString description;
+        foreach(QString item, split) {
+            description.append(item);
+            description.append("<br>");
+        }
+
+        ui->downloadOptions->setEnabled(true);
+
+        QNetworkAccessManager *m_netwManager = new QNetworkAccessManager(this);
+        connect(m_netwManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(slot_netwManagerFinished(QNetworkReply*)));
+        QNetworkRequest request(thumbnail);
+        m_netwManager->get(request);
+        ui->titleDescLabel->setText("<b>"+title+"</b>"+"<br><br>"+description);
+        ui->downloadButton->setEnabled(true);
+        ui->pasteButton->setEnabled(true);
     }
-
-    ui->downloadOptions->setEnabled(true);
-
-    QNetworkAccessManager *m_netwManager = new QNetworkAccessManager(this);
-    connect(m_netwManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(slot_netwManagerFinished(QNetworkReply*)));
-    QNetworkRequest request(thumbnail);
-    m_netwManager->get(request);
-    ui->titleDescLabel->setText("<b>"+title+"</b>"+"<br><br>"+description);
-    ui->downloadButton->setEnabled(true);
-    ui->pasteButton->setEnabled(true);
 }
 
 void YoutubeDL::slot_netwManagerFinished(QNetworkReply *reply)
@@ -292,5 +293,16 @@ void YoutubeDL::getSites()
     QString videoInfo(info->readAllStandardOutput());
     videoInfo.replace("\n",", ");
     videoInfo.remove(videoInfo.lastIndexOf(","),1);
-    QMessageBox::about(this, "Supported sites", videoInfo);
+    QMessageBox::about(this, tr("Supported sites"), videoInfo);
+}
+
+void YoutubeDL::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        ui->downloadButton->setText(tr("Prenos"));
+        /*
+        titleLabel->setText(tr("Document Title"));
+        ...
+        okPushButton->setText(tr("&OK"));*/
+    }
 }

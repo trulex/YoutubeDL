@@ -67,6 +67,8 @@ private slots:
 
     void getSites();
 
+    void changeEvent(QEvent *event);
+
 private:
     Ui::YoutubeDL *ui;
     QProcess *download;

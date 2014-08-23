@@ -33,4 +33,4 @@ Download YoutubeDL.for.Windows.zip, unzip it and run YoutubeDL.exe. youtube-dl a
 <h3>OS X</h3>
 Download YoutubeDL.for.OSX.dmg and run it, you will have to manually install youtube-dl and ffmpeg or avconv.
 <h3>GNU/Linux</h3>
-Download YoutubeDL.for.GNU.Linux and run it, you will have to manually install youtube-dl and ffmpeg or avconv.
+Download YoutubeDL.for.GNU.Linux.tar.gz, uncompress and run it, you will have to manually install youtube-dl and ffmpeg or avconv.

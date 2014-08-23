@@ -26,7 +26,7 @@
     <message>
         <location filename="youtubedl.ui" line="62"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Izbriši</translation>
     </message>
     <message>
         <location filename="youtubedl.ui" line="73"/>
@@ -137,7 +137,7 @@
         <location filename="youtubedl.ui" line="459"/>
         <location filename="youtubedl.cpp" line="296"/>
         <source>Supported sites</source>
-        <translation type="unfinished">Podprte strani</translation>
+        <translation>Podprte strani</translation>
     </message>
     <message>
         <location filename="youtubedl.cpp" line="302"/>

@@ -69,6 +69,8 @@ private slots:
 
     void changeEvent(QEvent *event);
 
+    void setMenuIcons();
+
 private:
     Ui::YoutubeDL *ui;
     QProcess *download;

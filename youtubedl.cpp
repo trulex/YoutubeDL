@@ -25,10 +25,11 @@
 #include <QMessageBox>
 
 YoutubeDL::YoutubeDL(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::YoutubeDL)
-{
+QMainWindow(parent),
+ui(new Ui::YoutubeDL) {
     ui->setupUi(this);
+    this->setMenuIcons();
+
     ui->downloadProgressBar->setValue(0);
     ui->path->setText(QDir::currentPath());
     ui->downloadOptionsFrame->setVisible(false);
@@ -41,18 +42,23 @@ YoutubeDL::YoutubeDL(QWidget *parent) :
     }
 }
 
-YoutubeDL::~YoutubeDL()
-{
+YoutubeDL::~YoutubeDL() {
     delete ui;
 }
 
-void YoutubeDL::on_actionExit_triggered()
-{
+void YoutubeDL::setMenuIcons() {
+    ui->actionExit->setIcon(QIcon::fromTheme(QStringLiteral("application-exit"), QIcon(":images/Actions-application-exit-icon.png")));
+    ui->actionPaste->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste"), QIcon(":images/Actions-edit-paste-icon.png")));
+    ui->actionClear->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear"), QIcon(":images/Actions-edit-clear-icon.png")));
+    ui->actionAbout->setIcon(QIcon::fromTheme(QStringLiteral("help-about"), QIcon(":images/Status-dialog-information-icon.png")));
+    ui->actionSupported_sites->setIcon(QIcon(":images/Actions-help-contents-icon.png"));
+}
+
+void YoutubeDL::on_actionExit_triggered() {
     qApp->exit();
 }
 
-void YoutubeDL::on_browseButton_clicked()
-{
+void YoutubeDL::on_browseButton_clicked() {
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::Directory);
     dialog.setOption(QFileDialog::ShowDirsOnly);

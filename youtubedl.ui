@@ -431,9 +431,6 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
-   <property name="icon">
-    <iconset theme="application-exit"/>
-   </property>
    <property name="text">
     <string>Quit</string>
    </property>
@@ -442,11 +439,6 @@
    </property>
   </action>
   <action name="actionAbout">
-   <property name="icon">
-    <iconset theme="help-about">
-     <normaloff/>
-    </iconset>
-   </property>
    <property name="text">
     <string>About</string>
    </property>
@@ -457,11 +449,6 @@
    </property>
   </action>
   <action name="actionPaste">
-   <property name="icon">
-    <iconset theme="edit-paste">
-     <normaloff/>
-    </iconset>
-   </property>
    <property name="text">
     <string>Paste</string>
    </property>
@@ -470,11 +457,6 @@
    </property>
   </action>
   <action name="actionClear">
-   <property name="icon">
-    <iconset theme="edit-clear">
-     <normaloff/>
-    </iconset>
-   </property>
    <property name="text">
     <string>Clear</string>
    </property>

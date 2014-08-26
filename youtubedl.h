@@ -71,6 +71,8 @@ private slots:
 
     void setMenuIcons();
 
+    void resetInterface();
+
 private:
     Ui::YoutubeDL *ui;
     QProcess *download;

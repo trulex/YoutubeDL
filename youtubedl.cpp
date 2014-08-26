@@ -23,6 +23,7 @@
 #include <QProcess>
 #include <QByteArray>
 #include <QMessageBox>
+#include <QMovie>
 
 YoutubeDL::YoutubeDL(QWidget *parent) :
 QMainWindow(parent),
@@ -72,22 +73,9 @@ void YoutubeDL::on_browseButton_clicked() {
 void YoutubeDL::on_url_textChanged(const QString &arg1) {
     // Check if URL is correct and valid
     if (arg1.isEmpty() || !QUrl(arg1).isValid()) {
-        info->kill();
-        ui->pasteButton->setEnabled(true);
-        ui->downloadButton->setDisabled(true);
-        ui->cancelButton->setDisabled(true);
-        ui->pauseButton->setDisabled(true);
-        ui->downloadOptions->setDisabled(true);
-        ui->downloadProgressBar->setValue(0);
-        ui->downloadProgressBar->setFormat("0%");
-        ui->titleDescLabel->setText("");
-        ui->imageLabel->setPixmap(QPixmap());
-        ui->downloadOptionsFrame->setHidden(true);
-        ui->audioCheckBox->setChecked(false);
-        ui->audioFormatCombo->setDisabled(true);
-        ui->audioQualityCombo->setDisabled(true);
-        ui->keepVideoCheckBox->setDisabled(true);
-        ui->keepVideoCheckBox->setChecked(false);
+        if (NULL != info && info->state() != 0)
+            info->kill();
+        this->resetInterface();
     } else {
         ui->pasteButton->setDisabled(true);
         // Get video info
@@ -96,10 +84,34 @@ void YoutubeDL::on_url_textChanged(const QString &arg1) {
         arguments <<"--get-thumbnail"<<"--get-title"<<"--get-description" << arg1;
         info = new QProcess(this);
         info->start(program, arguments);
-        QObject::connect(info, SIGNAL(finished(int)), this, SLOT(getInfo()));
+
         QObject::connect(info, SIGNAL(readyReadStandardError()), this, SLOT(printError()));
-        ui->titleDescLabel->setText("Fetching video/audio info...");
+        QObject::connect(info, SIGNAL(finished(int)), this, SLOT(getInfo()));
+
+        QMovie *movie = new QMovie(":images/loader.gif");
+        ui->titleDescLabel->setAlignment(Qt::AlignCenter);
+        ui->titleDescLabel->setMovie(movie);
+        movie->start();
+
     }
+}
+
+void YoutubeDL::resetInterface() {
+    ui->pasteButton->setEnabled(true);
+    ui->downloadButton->setDisabled(true);
+    ui->cancelButton->setDisabled(true);
+    ui->pauseButton->setDisabled(true);
+    ui->downloadOptions->setDisabled(true);
+    ui->downloadProgressBar->setValue(0);
+    ui->downloadProgressBar->setFormat("0%");
+    ui->titleDescLabel->setText(" ");
+    ui->imageLabel->setPixmap(QPixmap());
+    ui->downloadOptionsFrame->setHidden(true);
+    ui->audioCheckBox->setChecked(false);
+    ui->audioFormatCombo->setDisabled(true);
+    ui->audioQualityCombo->setDisabled(true);
+    ui->keepVideoCheckBox->setDisabled(true);
+    ui->keepVideoCheckBox->setChecked(false);
 }
 
 void YoutubeDL::printError() {
@@ -134,6 +146,7 @@ void YoutubeDL::getInfo()
         connect(m_netwManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(slot_netwManagerFinished(QNetworkReply*)));
         QNetworkRequest request(thumbnail);
         m_netwManager->get(request);
+        ui->titleDescLabel->setAlignment(Qt::AlignLeft);
         ui->titleDescLabel->setText("<b>"+title+"</b>"+"<br><br>"+description);
         ui->downloadButton->setEnabled(true);
         ui->pasteButton->setEnabled(true);

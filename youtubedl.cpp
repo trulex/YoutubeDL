@@ -81,7 +81,7 @@ void YoutubeDL::on_url_textChanged(const QString &arg1) {
         // Get video info
         QString program = "youtube-dl";
         QStringList arguments;
-        arguments <<"--get-thumbnail"<<"--get-title"<<"--get-description" << arg1;
+        arguments <<"--get-thumbnail"<<"--get-title"<<"--get-description" << "--no-playlist" << arg1;
         info = new QProcess(this);
         info->start(program, arguments);
 
@@ -185,10 +185,9 @@ void YoutubeDL::on_downloadButton_clicked()
             if (ui->keepVideoCheckBox->isChecked())
                 arguments << "-k";
         }
-        arguments << "-o" << ui->path->text()+"/%(title)s.%(ext)s" << ui->url->text();
-    } else {
-        arguments << "-o" << ui->path->text()+"/%(title)s.%(ext)s" << ui->url->text();
     }
+    arguments << "-o" << ui->path->text()+"/%(title)s.%(ext)s" << "--no-playlist" << ui->url->text();
+
     download = new QProcess(this);
     download->start(program, arguments);
     QObject::connect(download, SIGNAL(readyReadStandardOutput()), this, SLOT(printOutput()));

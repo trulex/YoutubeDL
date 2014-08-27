@@ -461,7 +461,7 @@
     <string>Clear</string>
    </property>
    <property name="shortcut">
-    <string>Del</string>
+    <string>Ctrl+Del</string>
    </property>
   </action>
  </widget>

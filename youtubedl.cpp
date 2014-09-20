@@ -25,8 +25,7 @@
 #include <QMessageBox>
 #include <QMovie>
 
-YoutubeDL::YoutubeDL(QWidget *parent) :
-QMainWindow(parent),
+YoutubeDL::YoutubeDL(QWidget *parent) : QMainWindow(parent),
 ui(new Ui::YoutubeDL) {
     ui->setupUi(this);
     this->setMenuIcons();
@@ -36,7 +35,7 @@ ui(new Ui::YoutubeDL) {
     ui->downloadOptionsFrame->setVisible(false);
     ui->downloadOptions->setDisabled(true);
     QStringList audioFormats;
-    audioFormats << "best" << "aac" << "vorbis" << "mp3" << "m4a" << "opus" << "wav";
+    audioFormats << "mp3" << "aac" << "vorbis" << "best" << "m4a" << "opus" << "wav";
     ui->audioFormatCombo->addItems(audioFormats);
     for (int var = 0; var < 10; ++var) {
         ui->audioQualityCombo->addItem(QString::number(var));
@@ -48,10 +47,14 @@ YoutubeDL::~YoutubeDL() {
 }
 
 void YoutubeDL::setMenuIcons() {
-    ui->actionExit->setIcon(QIcon::fromTheme(QStringLiteral("application-exit"), QIcon(":images/Actions-application-exit-icon.png")));
-    ui->actionPaste->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste"), QIcon(":images/Actions-edit-paste-icon.png")));
-    ui->actionClear->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear"), QIcon(":images/Actions-edit-clear-icon.png")));
-    ui->actionAbout->setIcon(QIcon::fromTheme(QStringLiteral("help-about"), QIcon(":images/Status-dialog-information-icon.png")));
+    ui->actionExit->setIcon(QIcon::fromTheme(QStringLiteral("application-exit"),
+                                             QIcon(":images/Actions-application-exit-icon.png")));
+    ui->actionPaste->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste"),
+                                             QIcon(":images/Actions-edit-paste-icon.png")));
+    ui->actionClear->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear"),
+                                             QIcon(":images/Actions-edit-clear-icon.png")));
+    ui->actionAbout->setIcon(QIcon::fromTheme(QStringLiteral("help-about"),
+                                             QIcon(":images/Status-dialog-information-icon.png")));
     ui->actionSupported_sites->setIcon(QIcon(":images/Actions-help-contents-icon.png"));
 }
 
@@ -117,13 +120,12 @@ void YoutubeDL::resetInterface() {
 void YoutubeDL::printError() {
     QString errorInfo(info->readAllStandardError());
     if (errorInfo.length() > 0) {
-        ui->titleDescLabel->setText("Error occured. Please check the URL.");
+        ui->titleDescLabel->setText(tr("Error occured. Please check the URL."));
         ui->pasteButton->setEnabled(true);
     }
 }
 
-void YoutubeDL::getInfo()
-{
+void YoutubeDL::getInfo() {
     QString videoInfo(info->readAllStandardOutput());
     if (videoInfo.length() > 0 && NULL != videoInfo) {
         //QStringList split = videoInfo.split("\n");
@@ -153,8 +155,7 @@ void YoutubeDL::getInfo()
     }
 }
 
-void YoutubeDL::slot_netwManagerFinished(QNetworkReply *reply)
-{
+void YoutubeDL::slot_netwManagerFinished(QNetworkReply *reply) {
     if (reply->error() != QNetworkReply::NoError) {
         qDebug() << "Error in" << reply->url() << ":" << reply->errorString();
         return;
@@ -168,8 +169,7 @@ void YoutubeDL::slot_netwManagerFinished(QNetworkReply *reply)
 }
 
 
-void YoutubeDL::on_downloadButton_clicked()
-{
+void YoutubeDL::on_downloadButton_clicked() {
     /**
      * Call youtube-dl with selected arguments
      */
@@ -181,7 +181,8 @@ void YoutubeDL::on_downloadButton_clicked()
             arguments << "-r" << rate;
         }
         if (ui->audioCheckBox->isChecked()) {
-            arguments << "-x" << "--audio-format" << ui->audioFormatCombo->currentText() << "--audio-quality" << ui->audioQualityCombo->currentText();
+            arguments << "-x" << "--audio-format" << ui->audioFormatCombo->currentText() << "--audio-quality" <<
+                         ui->audioQualityCombo->currentText();
             if (ui->keepVideoCheckBox->isChecked())
                 arguments << "-k";
         }
@@ -196,13 +197,11 @@ void YoutubeDL::on_downloadButton_clicked()
     ui->downloadProgressBar->setFormat("Download starting...");
     ui->downloadButton->setDisabled(true);
 }
-void YoutubeDL::printOutput()
-{
+void YoutubeDL::printOutput() {
     QString line(download->readAllStandardOutput());
-    qDebug() << line;
     QString progress;
     QString timeRemaining;
-    if(line.contains(QString("[download]"), Qt::CaseInsensitive)){
+    if (line.contains(QString("[download]"), Qt::CaseInsensitive)) {
         QRegExp rx("(\\d+\\.\\d+%)");
         timeRemaining = line.right(5);
         rx.indexIn(line);
@@ -224,15 +223,13 @@ void YoutubeDL::printOutput()
     }
 }
 
-void YoutubeDL::on_cancelButton_clicked()
-{
+void YoutubeDL::on_cancelButton_clicked() {
     download->kill();
     ui->downloadProgressBar->setValue(0);
     ui->downloadProgressBar->setFormat("0%");
 }
 
-void YoutubeDL::on_pauseButton_clicked()
-{
+void YoutubeDL::on_pauseButton_clicked() {
     if (ui->pauseButton->text().compare("Pause")==0) {
         download->kill();
         ui->pauseButton->setText("Resume");
@@ -242,8 +239,7 @@ void YoutubeDL::on_pauseButton_clicked()
     }
 }
 
-void YoutubeDL::on_downloadOptions_clicked()
-{
+void YoutubeDL::on_downloadOptions_clicked() {
     if (ui->downloadOptionsFrame->isVisible()) {
         ui->downloadOptionsFrame->setVisible(false);
     } else {
@@ -251,7 +247,8 @@ void YoutubeDL::on_downloadOptions_clicked()
         ui->downloadOptionsFrame->setVisible(true);
         ui->downloadOptionsFrame->setEnabled(true);
         /*ui->videoFormatCombo->setEnabled(true);
-        if (ui->url->text().contains("youtube",Qt::CaseInsensitive) || ui->url->text().contains("youtu.be",Qt::CaseInsensitive)) {
+        if (ui->url->text().contains("youtube",Qt::CaseInsensitive) || ui->url->text().contains("youtu.be",
+                Qt::CaseInsensitive)) {
             QString program = "youtube-dl";
             QStringList arguments;
             arguments <<"-F"<< ui->url->text();
@@ -272,8 +269,7 @@ void YoutubeDL::on_downloadOptions_clicked()
  * For selecting video format when downloading from Youtube.
  * Not finished yet.
  */
-void YoutubeDL::getFormats()
-{
+void YoutubeDL::getFormats() {
     QString videoInfo(info->readAllStandardOutput());
 
     qDebug() << videoInfo;
@@ -282,8 +278,7 @@ void YoutubeDL::getFormats()
     ui->videoFormatCombo->addItems(formats);
 }
 
-void YoutubeDL::on_audioCheckBox_stateChanged(int arg1)
-{
+void YoutubeDL::on_audioCheckBox_stateChanged(int arg1) {
     if (!arg1) {
         ui->audioFormatCombo->setDisabled(true);
         ui->audioQualityCombo->setDisabled(true);
@@ -295,14 +290,16 @@ void YoutubeDL::on_audioCheckBox_stateChanged(int arg1)
     }
 }
 
-void YoutubeDL::on_actionAbout_triggered()
-{
+void YoutubeDL::on_actionAbout_triggered() {
     QMessageBox::about(this, tr("About YouTubeDL"),
-    tr("This is a GUI for the program youtube-dl.<br/><br/>Author: Darko Janković"));
+    tr("This is a GUI for youtube-dl.<br/><br/>Author: Darko Janković"));
 }
 
-void YoutubeDL::on_actionSupported_sites_triggered()
-{
+void YoutubeDL::on_actionAbout_Qt_triggered() {
+    QMessageBox::aboutQt(this, tr("About Qt"));
+}
+
+void YoutubeDL::on_actionSupported_sites_triggered() {
     QString program = "youtube-dl";
     QStringList arguments;
     arguments <<"--list-extractors";
@@ -311,16 +308,15 @@ void YoutubeDL::on_actionSupported_sites_triggered()
     QObject::connect(info, SIGNAL(readyReadStandardOutput()), this, SLOT(getSites()));
 }
 
-void YoutubeDL::getSites()
-{
+void YoutubeDL::getSites() {
     QString videoInfo(info->readAllStandardOutput());
     videoInfo.replace("\n",", ");
     videoInfo.remove(videoInfo.lastIndexOf(","),1);
-    QMessageBox::about(this, tr("Supported sites"), videoInfo);
+    QMessageBox::information(this, tr("Supported sites"), videoInfo);
 }
 
-void YoutubeDL::changeEvent(QEvent *event)
-{
+void YoutubeDL::changeEvent(QEvent *event) {
     if (event->type() == QEvent::LanguageChange) {
+        //TODO for dynamic language changing
     }
 }

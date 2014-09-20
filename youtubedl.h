@@ -73,6 +73,8 @@ private slots:
 
     void resetInterface();
 
+    void on_actionAbout_Qt_triggered();
+
 private:
     Ui::YoutubeDL *ui;
     QProcess *download;

@@ -7,5 +7,6 @@
         <file>images/Actions-help-contents-icon.png</file>
         <file>images/Status-dialog-information-icon.png</file>
         <file>images/loader.gif</file>
+        <file>youtubedl_sl_SI.qm</file>
     </qresource>
 </RCC>

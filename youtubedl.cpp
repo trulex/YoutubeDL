@@ -26,7 +26,7 @@
 #include <QMovie>
 
 YoutubeDL::YoutubeDL(QWidget *parent) : QMainWindow(parent),
-ui(new Ui::YoutubeDL) {
+    ui(new Ui::YoutubeDL) {
     ui->setupUi(this);
     this->setMenuIcons();
 
@@ -50,11 +50,11 @@ void YoutubeDL::setMenuIcons() {
     ui->actionExit->setIcon(QIcon::fromTheme(QStringLiteral("application-exit"),
                                              QIcon(":images/Actions-application-exit-icon.png")));
     ui->actionPaste->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste"),
-                                             QIcon(":images/Actions-edit-paste-icon.png")));
+                                              QIcon(":images/Actions-edit-paste-icon.png")));
     ui->actionClear->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear"),
-                                             QIcon(":images/Actions-edit-clear-icon.png")));
+                                              QIcon(":images/Actions-edit-clear-icon.png")));
     ui->actionAbout->setIcon(QIcon::fromTheme(QStringLiteral("help-about"),
-                                             QIcon(":images/Status-dialog-information-icon.png")));
+                                              QIcon(":images/Status-dialog-information-icon.png")));
     ui->actionSupported_sites->setIcon(QIcon(":images/Actions-help-contents-icon.png"));
 }
 
@@ -292,7 +292,7 @@ void YoutubeDL::on_audioCheckBox_stateChanged(int arg1) {
 
 void YoutubeDL::on_actionAbout_triggered() {
     QMessageBox::about(this, tr("About YouTubeDL"),
-    tr("This is a GUI for youtube-dl.<br/><br/>Author: Darko Janković"));
+                       tr("This is a GUI for youtube-dl.<br/><br/>Author: Darko Janković"));
 }
 
 void YoutubeDL::on_actionAbout_Qt_triggered() {
@@ -302,7 +302,7 @@ void YoutubeDL::on_actionAbout_Qt_triggered() {
 void YoutubeDL::on_actionSupported_sites_triggered() {
     QString program = "youtube-dl";
     QStringList arguments;
-    arguments <<"--list-extractors";
+    arguments << "--list-extractors";
     info = new QProcess(this);
     info->start(program, arguments);
     QObject::connect(info, SIGNAL(readyReadStandardOutput()), this, SLOT(getSites()));
@@ -311,7 +311,7 @@ void YoutubeDL::on_actionSupported_sites_triggered() {
 void YoutubeDL::getSites() {
     QString videoInfo(info->readAllStandardOutput());
     videoInfo.replace("\n",", ");
-    videoInfo.remove(videoInfo.lastIndexOf(","),1);
+    videoInfo.remove(videoInfo.lastIndexOf(","), 1);
     QMessageBox::information(this, tr("Supported sites"), videoInfo);
 }
 
@@ -319,4 +319,20 @@ void YoutubeDL::changeEvent(QEvent *event) {
     if (event->type() == QEvent::LanguageChange) {
         //TODO for dynamic language changing
     }
+}
+
+void YoutubeDL::on_actionUpdate_youtube_dl_triggered()
+{
+    QString program = "youtube-dl";
+    QStringList arguments;
+    arguments << "--update";
+    processUpdate = new QProcess(this);
+    processUpdate->start(program, arguments);
+    QObject::connect(processUpdate, SIGNAL(readyReadStandardOutput()), this, SLOT(update()));
+}
+
+void YoutubeDL::update()
+{
+    QString updateResult(processUpdate->readAllStandardOutput());
+    QMessageBox::information(this, tr("youtube-dl update"), updateResult);
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>565</width>
-    <height>384</height>
+    <width>576</width>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -98,8 +98,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>530</width>
-           <height>86</height>
+           <width>544</width>
+           <height>70</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -401,8 +401,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>565</width>
-     <height>18</height>
+     <width>576</width>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -425,6 +425,7 @@
     <addaction name="actionAbout"/>
     <addaction name="actionSupported_sites"/>
     <addaction name="actionAbout_Qt"/>
+    <addaction name="actionUpdate_youtube_dl"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -468,6 +469,11 @@
   <action name="actionAbout_Qt">
    <property name="text">
     <string>About &amp;Qt</string>
+   </property>
+  </action>
+  <action name="actionUpdate_youtube_dl">
+   <property name="text">
+    <string>&amp;Update youtube-dl</string>
    </property>
   </action>
  </widget>

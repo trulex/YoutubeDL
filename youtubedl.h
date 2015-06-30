@@ -75,10 +75,15 @@ private slots:
 
     void on_actionAbout_Qt_triggered();
 
+    void on_actionUpdate_youtube_dl_triggered();
+
+    void update();
+
 private:
     Ui::YoutubeDL *ui;
     QProcess *download;
     QProcess *info;
+    QProcess *processUpdate;
 };
 
 #endif // YOUTUBEDL_H

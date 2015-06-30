@@ -22,7 +22,7 @@
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    a.setWindowIcon(QIcon(":/YoutubeDL.png"));
+    a.setWindowIcon(QIcon(":/images/YoutubeDL.png"));
 
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));

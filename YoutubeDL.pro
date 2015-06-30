@@ -36,8 +36,8 @@ HEADERS  += youtubedl.h
 
 FORMS    += youtubedl.ui
 
-RC_ICONS = YoutubeDL.ico
-ICON = YoutubeDL.icns
+RC_ICONS = images/YoutubeDL.ico
+ICON = images/YoutubeDL.icns
 
 RESOURCES += \
     YoutubeDL.qrc

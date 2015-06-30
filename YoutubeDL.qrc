@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>YoutubeDL.png</file>
         <file>images/Actions-application-exit-icon.png</file>
         <file>images/Actions-edit-clear-icon.png</file>
         <file>images/Actions-edit-paste-icon.png</file>
@@ -8,5 +7,6 @@
         <file>images/Status-dialog-information-icon.png</file>
         <file>images/loader.gif</file>
         <file>youtubedl_sl_SI.qm</file>
+        <file>images/YoutubeDL.png</file>
     </qresource>
 </RCC>

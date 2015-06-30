@@ -30,16 +30,15 @@ YoutubeDL::YoutubeDL(QWidget *parent) : QMainWindow(parent),
     ui->setupUi(this);
     this->setMenuIcons();
 
-    ui->downloadProgressBar->setValue(0);
     ui->path->setText(QDir::currentPath());
-    ui->downloadOptionsFrame->setVisible(false);
-    ui->downloadOptions->setDisabled(true);
     QStringList audioFormats;
     audioFormats << "mp3" << "aac" << "vorbis" << "best" << "m4a" << "opus" << "wav";
     ui->audioFormatCombo->addItems(audioFormats);
     for (int var = 0; var < 10; ++var) {
         ui->audioQualityCombo->addItem(QString::number(var));
     }
+
+    this->resetInterface();
 }
 
 YoutubeDL::~YoutubeDL() {
@@ -108,13 +107,21 @@ void YoutubeDL::resetInterface() {
     ui->downloadProgressBar->setValue(0);
     ui->downloadProgressBar->setFormat("0%");
     ui->titleDescLabel->setText(" ");
-    ui->imageLabel->setPixmap(QPixmap());
+    QPixmap map(":/images/YoutubeDL.png");
+    ui->imageLabel->setPixmap(map);
     ui->downloadOptionsFrame->setHidden(true);
     ui->audioCheckBox->setChecked(false);
     ui->audioFormatCombo->setDisabled(true);
     ui->audioQualityCombo->setDisabled(true);
     ui->keepVideoCheckBox->setDisabled(true);
     ui->keepVideoCheckBox->setChecked(false);
+
+    /*
+    QByteArray jpegData = reply->readAll();
+    QPixmap pixmap;
+    pixmap.loadFromData(jpegData);
+    pixmap=pixmap.scaledToWidth(200);
+    ui->imageLabel->setPixmap(pixmap);*/
 }
 
 void YoutubeDL::printError() {
@@ -170,9 +177,6 @@ void YoutubeDL::slot_netwManagerFinished(QNetworkReply *reply) {
 
 
 void YoutubeDL::on_downloadButton_clicked() {
-    /**
-     * Call youtube-dl with selected arguments
-     */
     QString program = "youtube-dl";
     QStringList arguments;
     if (ui->downloadOptionsFrame->isEnabled()) {

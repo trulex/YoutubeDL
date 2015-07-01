@@ -21,6 +21,7 @@
 #include <QMainWindow>
 #include <QProcess>
 #include <QNetworkReply>
+#include <QMessageBox>
 
 namespace Ui {
 class YoutubeDL;
@@ -84,6 +85,7 @@ private:
     QProcess *download;
     QProcess *info;
     QProcess *processUpdate;
+    QMessageBox *updateMessageBox = NULL;
 };
 
 #endif // YOUTUBEDL_H

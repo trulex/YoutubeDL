@@ -98,7 +98,8 @@ void YoutubeDL::on_url_textChanged(const QString &arg1) {
     }
 }
 
-void YoutubeDL::resetInterface() {
+void YoutubeDL::resetInterface()
+{
     ui->pasteButton->setEnabled(true);
     ui->downloadButton->setDisabled(true);
     ui->cancelButton->setDisabled(true);
@@ -115,13 +116,6 @@ void YoutubeDL::resetInterface() {
     ui->audioQualityCombo->setDisabled(true);
     ui->keepVideoCheckBox->setDisabled(true);
     ui->keepVideoCheckBox->setChecked(false);
-
-    /*
-    QByteArray jpegData = reply->readAll();
-    QPixmap pixmap;
-    pixmap.loadFromData(jpegData);
-    pixmap=pixmap.scaledToWidth(200);
-    ui->imageLabel->setPixmap(pixmap);*/
 }
 
 void YoutubeDL::printError() {
@@ -176,7 +170,8 @@ void YoutubeDL::slot_netwManagerFinished(QNetworkReply *reply) {
 }
 
 
-void YoutubeDL::on_downloadButton_clicked() {
+void YoutubeDL::on_downloadButton_clicked()
+{
     QString program = "youtube-dl";
     QStringList arguments;
     if (ui->downloadOptionsFrame->isEnabled()) {
@@ -201,7 +196,8 @@ void YoutubeDL::on_downloadButton_clicked() {
     ui->downloadProgressBar->setFormat("Download starting...");
     ui->downloadButton->setDisabled(true);
 }
-void YoutubeDL::printOutput() {
+void YoutubeDL::printOutput()
+{
     QString line(download->readAllStandardOutput());
     QString progress;
     QString timeRemaining;
@@ -276,9 +272,9 @@ void YoutubeDL::on_downloadOptions_clicked() {
 void YoutubeDL::getFormats() {
     QString videoInfo(info->readAllStandardOutput());
 
-    qDebug() << videoInfo;
+//    qDebug() << videoInfo;
     QStringList formats = videoInfo.split("\n");
-    qDebug() << formats;
+//    qDebug() << formats;
     ui->videoFormatCombo->addItems(formats);
 }
 
@@ -327,7 +323,7 @@ void YoutubeDL::changeEvent(QEvent *event) {
 
 void YoutubeDL::on_actionUpdate_youtube_dl_triggered()
 {
-    QString program = "youtube-dl";
+    QString program = "./youtube-dl";
     QStringList arguments;
     arguments << "--update";
     processUpdate = new QProcess(this);
@@ -338,5 +334,16 @@ void YoutubeDL::on_actionUpdate_youtube_dl_triggered()
 void YoutubeDL::update()
 {
     QString updateResult(processUpdate->readAllStandardOutput());
-    QMessageBox::information(this, tr("youtube-dl update"), updateResult);
+    if (NULL != updateMessageBox && updateMessageBox->isVisible())
+    {
+        updateMessageBox->setText(updateResult);
+    }
+    else
+    {
+        updateMessageBox = new QMessageBox(this);
+        updateMessageBox->setWindowTitle(tr("youtubed-dl update"));
+        updateMessageBox->setText(updateResult);
+        updateMessageBox->show();
+    }
+
 }
